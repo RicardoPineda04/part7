@@ -8,8 +8,11 @@ import Blog from "./components/Blog";
 import NewBlog from "./components/NewBlog";
 import Notification from "./components/Notificacion";
 import Togglable from "./components/Toggable";
+import { useDispatch } from "react-redux"
+import { addNotification } from "./reducers/notificationReducer";
 
 const App = () => {
+  const dispatch = useDispatch()
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
   const [notification, setNotification] = useState(null);
@@ -48,7 +51,7 @@ const App = () => {
   const handleCreate = async (blog) => {
     const newBlog = await blogService.create(blog);
     setBlogs(blogs.concat(newBlog));
-    notify(`Blog created: ${newBlog.title}, ${newBlog.author}`);
+    dispatch(addNotification(`Blog created: ${newBlog.title}, ${newBlog.author}`, 10));
     blogFormRef.current.toggleVisibility();
   };
 

@@ -1,18 +1,22 @@
-import PropTypes from "prop-types";
+import { useSelector } from 'react-redux'
 
-const Notification = ({ notification }) => {
+const Notification = () => {
+  const notification = useSelector(state => state.notification)
   if (!notification) {
     return null;
   }
 
-  const { message, type } = notification;
+  const style = {
+    border: 'solid',
+    padding: 10,
+    borderWidth: 1
+  }
 
-  return <div className={`${type}`}>{message}</div>;
-};
-
-Notification.propTypes = {
-  message: PropTypes.string.isRequired,
-  typemessage: PropTypes.string.isRequired,
-};
+  return (
+    <div style={style}>
+      {notification}
+    </div>
+  )
+}
 
 export default Notification;
