@@ -16,10 +16,9 @@ import { setUserStorage } from "./reducers/loginReducer"
 
 const App = () => {
   const dispatch = useDispatch()
-  // const [user, setUser] = useState(null);
-  const [notification, setNotification] = useState(null);
 
   const user = useSelector(state => state.login)
+  const notification = useSelector(state => state.Notification)
 
   useEffect(() => {
     dispatch(initializeBlogs())    
@@ -34,28 +33,10 @@ const App = () => {
 
   const blogFormRef = createRef();
 
-  const notify = (message, type = "confirmation") => {
-    setNotification({ message, type });
-    setTimeout(() => {
-      setNotification(null);
-    }, 5000);
-  };
-
-  const handleLogin = async (credentials) => {
-    try {
-      const user = await loginService.login(credentials);
-      setUser(user);
-      storage.saveUser(user);
-      notify(`Welcome back, ${user.name}`);
-    } catch (error) {
-      notify("Wrong credentials.", "error");
-    }
-  };  
-
   const handleLogout = () => {
     dispatch(setUserStorage(null))
     storage.removeUser();
-    notify(`Bye, ${user.name}!`);
+    dispatch(addNotification(`Bye, ${user.name}`,10))
   };
 
   
