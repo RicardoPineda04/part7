@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import storage from "../services/storage";
+import { useSelector } from "react-redux";
 
 const Blog = ({ blog, handleVote, handleDelete }) => {
   const [visible, setVisible] = useState(false);
-
   const nameOfUser = blog.user ? blog.user.name : "anonymous";
 
   const style = {
@@ -16,7 +16,7 @@ const Blog = ({ blog, handleVote, handleDelete }) => {
 
   const canRemove = blog.user ? blog.user.username === storage.me() : true;
 
-  console.log(blog.user, storage.me(), canRemove);
+  // console.log(blog.user, storage.me(), canRemove);
 
   return (
     <div style={style} className="blog">

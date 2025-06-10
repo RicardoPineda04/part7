@@ -1,14 +1,17 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../reducers/loginReducer"
 
-const Login = ({ doLogin }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
+const Login = () => {
+  const dispatch = useDispatch()
+  
   const handleLogin = (event) => {
     event.preventDefault();
-    doLogin({ username, password });
-    setUsername("");
-    setPassword("");
+    const data = {
+      username: event.target.username.value,
+      password: event.target.password.value
+    }
+    dispatch(loginUser(data))
   };
 
   return (
@@ -18,17 +21,15 @@ const Login = ({ doLogin }) => {
         <input
           type="text"
           data-testid="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          name="username"
         />
       </label>
       <label>
         Password:
         <input
           type="password"
-          value={password}
+          name="password"
           data-testid="password"
-          onChange={(e) => setPassword(e.target.value)}
         />
       </label>
       <input type="submit" value="Login" />

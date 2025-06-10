@@ -1,32 +1,22 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux"
+import { addBlog } from "../reducers/blogReducer"
+import { addNotification } from "../reducers/notificationReducer";
 
 
-const NewBlog = ({ doCreate }) => {
+const NewBlog = () => {
   const dispatch = useDispatch()
-  const [title, setTitle] = useState("");
-  const [url, setUrl] = useState("");
-  const [author, setAuthor] = useState("");
-
-  const handleTitleChange = (event) => {
-    setTitle(event.target.value);
-  };
-
-  const handleUrlChange = (event) => {
-    setUrl(event.target.value);
-  };
-
-  const handleAuthorChange = (event) => {
-    setAuthor(event.target.value);
-  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    doCreate({ title, url, author });
-    setAuthor("");
-    setTitle("");
-    setUrl("");
-  };
+    const newBlog = { 
+      title: event.target.title.value, 
+      url: event.target.url.value, 
+      author: event.target.author.value
+    }
+    dispatch(addBlog(newBlog))
+    dispatch(addNotification(`A new blog ${newBlog.title} by ${newBlog.author} added`, 10))
+  }
 
   return (
     <div>
@@ -37,8 +27,7 @@ const NewBlog = ({ doCreate }) => {
           <input
             type="text"
             data-testid="title"
-            value={title}
-            onChange={handleTitleChange}
+            name="title"
           />
         </div>
         <div>
@@ -46,8 +35,7 @@ const NewBlog = ({ doCreate }) => {
           <input
             type="text"
             data-testid="url"
-            value={url}
-            onChange={handleUrlChange}
+            name="url"
           />
         </div>
         <div>
@@ -55,8 +43,7 @@ const NewBlog = ({ doCreate }) => {
           <input
             type="text"
             data-testid="author"
-            value={author}
-            onChange={handleAuthorChange}
+            name="author"
           />
         </div>
         <button type="submit">Create</button>
