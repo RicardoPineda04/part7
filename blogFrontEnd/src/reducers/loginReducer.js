@@ -13,9 +13,9 @@ const loginSlice = createSlice({
 })
 
 export const { setUser } = loginSlice.actions
-export const loginUser = (credentials) => {
+export const loginUser = (user) => {
     return async dispatch => {
-        const user = await loginService.login(credentials)
+        // const user = await loginService.login(credentials)
         storage.saveUser(user)
         dispatch(setUser(user))
     }

@@ -27,31 +27,31 @@ const blogSlice = createSlice({
 })
 
 export const { setBlogs, setVote, appendBlog, removeBlog } = blogSlice.actions
-export const initializeBlogs = () => {
-    return async dispatch => {
-        const blogs = await blogService.getAll()
+export const initializeBlogs = (blogs) => {
+    return async dispatch => {    
+        // const blogs = await blogService.getAll()
         dispatch(setBlogs(blogs))
     }
 }
-export const addVote = (id, blog) => {
+export const addVote = (blog) => {
     return async dispatch => {
-        const data = {
-            ...blog,
-            likes: blog.likes + 1
-        }
-        const updatedBlog = await blogService.update(id, data)
-        dispatch(setVote(updatedBlog))
+        // const data = {
+        //     ...blog,
+        //     likes: blog.likes + 1
+        // }
+        // const updatedBlog = await blogService.update(id, data)
+        dispatch(setVote(blog))
     }
 }
 export const addBlog = (blog) => {
     return async dispatch => {
-        const newBlog = await blogService.create(blog)
-        dispatch(appendBlog(newBlog))
+        // const newBlog = await blogService.create(blog)
+        dispatch(appendBlog(blog))
     }
 }
 export const deleteBlog = (blog) => {
     return async dispatch => {
-        await blogService.remove(blog.id);
+        // await blogService.remove(blog.id);
         dispatch(removeBlog(blog))
     }
 }

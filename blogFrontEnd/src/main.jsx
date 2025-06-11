@@ -6,6 +6,7 @@ import notificationReducer from "./reducers/notificationReducer";
 import blogReducer from "./reducers/blogReducer"
 import loginReducer from "./reducers/loginReducer"
 import { configureStore } from "@reduxjs/toolkit";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const store = configureStore({
     reducer: {
@@ -15,8 +16,12 @@ const store = configureStore({
     }
 })
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+const queryClient = new QueryClient()
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <QueryClientProvider client={queryClient}>
     <Provider store={store}>
         <App />
-    </Provider>
-);
+    </Provider>    
+  </QueryClientProvider>
+)

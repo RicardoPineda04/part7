@@ -1,11 +1,22 @@
-import React, { useState } from "react";
 import { useDispatch } from "react-redux"
+import blogService from "../services/blogs"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { addBlog } from "../reducers/blogReducer"
-import { addNotification } from "../reducers/notificationReducer";
+import { addNotification } from "../reducers/notificationReducer"
 
-
-const NewBlog = () => {
+const NewBlog = ({doCreate}) => {
+  const queryClient = useQueryClient()
   const dispatch = useDispatch()
+
+  const newBlogMutation = useMutation({
+    mutationFn: blogService.create,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ['blogs']
+      })
+      dispatch(addBlog(data))
+    }
+  })
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -13,8 +24,9 @@ const NewBlog = () => {
       title: event.target.title.value, 
       url: event.target.url.value, 
       author: event.target.author.value
-    }
-    dispatch(addBlog(newBlog))
+    }  
+    newBlogMutation.mutate(newBlog)
+    doCreate()
     dispatch(addNotification(`A new blog ${newBlog.title} by ${newBlog.author} added`, 10))
   }
 
