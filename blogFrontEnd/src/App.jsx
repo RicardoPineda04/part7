@@ -1,19 +1,24 @@
 import { useEffect, createRef } from "react";
-
-import blogService from "./services/blogs";
-import storage from "./services/storage";
-import Login from "./components/Login";
-import Blogs from "./components/Blogs";
-import NewBlog from "./components/NewBlog";
-import Notification from "./components/Notificacion";
-import Togglable from "./components/Toggable";
-import { addNotification } from "./reducers/notificationReducer";
 import { useQuery } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
+import { BrowserRouter as Router,  Routes, Route, Link } from 'react-router-dom'
 import { setUserStorage } from "./reducers/loginReducer"
 import { initializeBlogs } from "./reducers/blogReducer";
+import { getAllUsers } from "./reducers/userReducer";
+import { addNotification } from "./reducers/notificationReducer";
+import Login from "./components/Login";
+import Notification from "./components/Notificacion";
+import Users from "./components/Users";
+import User from "./components/User";
+import Home from "./components/Home";
+import blogService from "./services/blogs";
+import userService from "./services/users";
+import storage from "./services/storage";
 
 const App = () => {
+  const padding = {
+    padding: 5
+  }
   const user = useSelector(state => state.login)
   const dispatch = useDispatch()
 
@@ -22,10 +27,17 @@ const App = () => {
     queryFn: blogService.getAll
   })
 
+  const resultUser = useQuery({
+    queryKey: ['users'],
+    queryFn: userService.getAll
+  })
+
   const blogs = result.data
+  const users = resultUser.data
   useEffect(() => {    
     dispatch(initializeBlogs(blogs))
-  }, [blogs])
+    dispatch(getAllUsers(users))
+  }, [blogs, users])
 
   useEffect(() => {
     const user = storage.loadUser();
@@ -62,16 +74,22 @@ const App = () => {
 
   return (
     <div>
-      <h2>Blogs</h2>
-      <Notification />
-      <div>
-        {user.name} logged in
-        <button onClick={handleLogout}>logout</button>
-      </div>
-      <Togglable buttonLabel="create new blog" ref={blogFormRef}>
-        <NewBlog doCreate={handleCreate}/>
-      </Togglable>
-      <Blogs />
+      <Router>
+        <div>
+          <Link style={padding} to="/">Blogs</Link>
+          <Link style={padding} to="/users">Users</Link>
+        </div>
+        <Notification />
+        <div>
+          {user.name} logged in
+          <button onClick={handleLogout}>logout</button>
+        </div>
+        <Routes>
+          <Route path="/users" element={<Users />} />
+          <Route path="/users/:id" element={<User />} />
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </Router>      
     </div>
   )
 }

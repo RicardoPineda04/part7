@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import notificationReducer from "./reducers/notificationReducer";
 import blogReducer from "./reducers/blogReducer"
 import loginReducer from "./reducers/loginReducer"
+import userReducer from "./reducers/userReducer"
 import { configureStore } from "@reduxjs/toolkit";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
@@ -12,7 +13,8 @@ const store = configureStore({
     reducer: {
         notification: notificationReducer,
         blogs: blogReducer,
-        login: loginReducer
+        login: loginReducer,
+        users: userReducer
     }
 })
 
