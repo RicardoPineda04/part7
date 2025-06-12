@@ -74,16 +74,16 @@ const App = () => {
   }  
 
   return (
-    <div>
+    <div className="container">
       <Router>
-        <div>
-          <Link style={padding} to="/">Blogs</Link>
-          <Link style={padding} to="/users">Users</Link>
+        <div className="nav nav-pills">
+          <Link style={padding} to="/" className="nav-link">Blogs</Link>
+          <Link style={padding} to="/users" className="nav-link">Users</Link>
         </div>
         <Notification />
         <div>
-          {user.name} logged in
-          <button onClick={handleLogout}>logout</button>
+          <p>{user.name} logged in.</p>
+          <button onClick={handleLogout} className="btn btn-primary">logout</button>
         </div>
         <Routes>
           <Route path="/users" element={<Users />} />

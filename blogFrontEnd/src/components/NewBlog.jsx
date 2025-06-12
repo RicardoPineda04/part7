@@ -58,7 +58,7 @@ const NewBlog = ({doCreate}) => {
             name="author"
           />
         </div>
-        <button type="submit">Create</button>
+        <button type="submit" className="btn btn-primary">Create</button>
       </form>
     </div>
   );

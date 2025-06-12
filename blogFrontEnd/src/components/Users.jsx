@@ -16,7 +16,7 @@ const Users = () => {
     return (
         <div>
             <h2>Users</h2>
-            <table>
+            <table className="table table-striped">
                 <thead>
                     <tr>
                         <th>Usuarios</th>

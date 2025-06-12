@@ -8,55 +8,12 @@ import { deleteBlog, addVote } from "../reducers/blogReducer"
 
 const Blogs = () => {
     const blogs = useSelector((state) => state.blogs)  
-    const dispatch = useDispatch()
-    const queryClient = useQueryClient()
     const byLikes = (a, b) => b.likes - a.likes;
 
-    const updateBlogMutation = useMutation({
-        mutationFn: ({id, data}) => blogService.update(id, data),
-        onSuccess: (data) => {
-            queryClient.invalidateQueries({
-                queryKey: ['blogs']
-            })
-            dispatch(addVote(data))
-        }
-    })
-
-    const deleteBlogMutation = useMutation({
-        mutationFn: blogService.remove,
-        onSuccess: (data) => {
-            console.log(data);
-            
-            queryClient.invalidateQueries({
-                queryKey: ['blogs']
-            })
-            dispatch(deleteBlog(data));
-        }
-    }) 
-
-    const handleVote = async (blog) => {        
-        const data = {
-            ...blog,
-            likes: blog.likes + 1
-        }        
-        updateBlogMutation.mutate({
-            id: blog.id,
-            data
-        })
-        dispatch(addNotification(`You liked ${blog.title} by ${blog.author}`,10))
-    }
-
-    const handleDelete = async (blog) => {
-        if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
-            deleteBlogMutation.mutate(blog.id)
-            dispatch(addNotification(`Blog ${blog.title}, by ${blog.author} removed`,10))
-        }
-    }
-
     return (
-        <div>
+        <div className="list-group">
             {blogs.map((blog) => (
-                <li key={blog.id}>
+                <li key={blog.id} className="list-group-item">
                     <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
                 </li>
             ))}
