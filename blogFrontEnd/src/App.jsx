@@ -14,6 +14,7 @@ import Home from "./components/Home";
 import blogService from "./services/blogs";
 import userService from "./services/users";
 import storage from "./services/storage";
+import Blog from "./components/Blog";
 
 const App = () => {
   const padding = {
@@ -87,6 +88,7 @@ const App = () => {
         <Routes>
           <Route path="/users" element={<Users />} />
           <Route path="/users/:id" element={<User />} />
+          <Route path="/blogs/:id" element={<Blog />} />
           <Route path="/" element={<Home />} />
         </Routes>
       </Router>      

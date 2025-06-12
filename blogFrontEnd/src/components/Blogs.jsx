@@ -1,4 +1,5 @@
 import { useSelector, useDispatch  } from "react-redux"
+import { Link } from "react-router-dom"
 import blogService from "../services/blogs"
 import Blog from "./Blog"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
@@ -55,12 +56,9 @@ const Blogs = () => {
     return (
         <div>
             {blogs.map((blog) => (
-                <Blog
-                    key={blog.id}
-                    blog={blog}
-                    handleVote={handleVote}
-                    handleDelete={handleDelete}
-                />
+                <li key={blog.id}>
+                    <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+                </li>
             ))}
         </div>
     )

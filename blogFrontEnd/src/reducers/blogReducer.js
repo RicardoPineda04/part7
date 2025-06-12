@@ -34,12 +34,7 @@ export const initializeBlogs = (blogs) => {
     }
 }
 export const addVote = (blog) => {
-    return async dispatch => {
-        // const data = {
-        //     ...blog,
-        //     likes: blog.likes + 1
-        // }
-        // const updatedBlog = await blogService.update(id, data)
+    return async dispatch => {      
         dispatch(setVote(blog))
     }
 }
